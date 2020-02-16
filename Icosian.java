@@ -4,57 +4,67 @@ import java.awt.Graphics;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 public class Icosian {
     public static void main(String[] args) {
         UndirectedGraph graph = new UndirectedGraph(20);
         UndirectedGraph.makeDodecahedron(graph);
-        graph.printGraph();
 
-        JFrame frame = new JFrame("DrawToScreen");
+        JFrame frame = new JFrame("Icosian Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(new GraphDrawer());
+        frame.setContentPane(new GraphDrawer(graph));
         frame.pack();
         frame.setVisible(true);
     }
 }
 
 class GraphDrawer extends JPanel {
-    public static final int BOX_WIDTH = 1024;
+    private UndirectedGraph graph;
+    public static final int BOX_WIDTH = 768;
     public static final int BOX_HEIGHT = 768;
 
-    public GraphDrawer() {
+    public GraphDrawer(UndirectedGraph graph) {
+        this.graph = graph;
         this.setPreferredSize(new Dimension(BOX_WIDTH, BOX_HEIGHT));
     }
 
-    // Your code here, if you want to define additional methods.
 
     @Override
     public void paintComponent(Graphics g) {
+
+        Graphics2D graphics2D = (Graphics2D)g;
+            
+        graphics2D.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, 
+                RenderingHints.VALUE_ANTIALIAS_ON);
         super.paintComponent(g);
-        for (int i = 50; i < BOX_WIDTH; i = i + 200)
-            for (int j = 50; j < BOX_HEIGHT; j = j + 150)
-                funnyShape(g, i, j);
+        for (int i = 0; i < graph.vertices.length; i++) {
+            drawNode(g,graph.vertices[i]);
+        }
+        for (int i = 0; i < graph.V; i++) {
+            for (Integer node : graph.adjListArray.get(i)) {
+                UndirectedGraph.Vertex a = graph.vertices[i];
+                UndirectedGraph.Vertex b = graph.vertices[node];
+
+                drawEdge(g, a, b);
+            }
+
+
+        }
+            
 
     }
 
-    public void funnyShape(Graphics g, int n, int y) {
-
-        g.setColor(Color.ORANGE);
-        g.fillOval(n, y, 100, 100);
-
-        g.setColor(Color.RED);
-        g.fillOval(n + 13, y + 12, 75, 75);
-
-        g.setColor(Color.ORANGE);
-        g.fillOval(n + 25, y + 25, 50, 50);
-
-        g.setColor(Color.RED);
-        g.fillRect(n + 50, y, 5, 100);
-
-        g.setColor(Color.RED);
-        g.fillRect(n, y + 50, 100, 5);
-
+    public void drawNode (Graphics g, UndirectedGraph.Vertex v) {
+        g.drawOval(v.x - 5, v.y - 5,10, 10);
+       
+        
+    }
+    public void drawEdge(Graphics g, UndirectedGraph.Vertex a, UndirectedGraph.Vertex b) {
+        g.drawLine(a.x,a.y,b.x,b.y);
     }
 
 }
