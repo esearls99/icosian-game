@@ -24,12 +24,26 @@ public class UndirectedGraph {
         for (int i = 0; i < V; i++) {
             vertices[i] = new Vertex(i, cords[2 * i], cords[2 * i+1]);
         }
+        
+    }
+
+    public int degree (int n) {
+        return adjListArray.get(n).size();
+
+    }
+
+    public void removeEdge(int a, int b) {
+        adjListArray.get(a).remove(Integer.valueOf(b));
+        adjListArray.get(b).remove(Integer.valueOf(a));
     }
 
     private void addEdge(int a, int b) {
         adjListArray.get(a).add(b);
         adjListArray.get(b).add(a);
     }
+    
+
+    
     private static int[] makeCords (){ 
         int[] cords = {
             386,747,
@@ -98,6 +112,8 @@ public class UndirectedGraph {
             System.out.println("\n");
         }
     }
+
+    
 
     class Vertex {
         int v;

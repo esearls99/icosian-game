@@ -59,11 +59,14 @@ class GraphDrawer extends JPanel {
     }
 
     public void drawNode (Graphics g, UndirectedGraph.Vertex v) {
-        g.drawOval(v.x - 5, v.y - 5,10, 10);
+        g.setColor(Color.RED);
+        g.fillOval(v.x - 5, v.y - 5,10, 10);
+
        
         
     }
     public void drawEdge(Graphics g, UndirectedGraph.Vertex a, UndirectedGraph.Vertex b) {
+        g.setColor(Color.BLACK);
         g.drawLine(a.x,a.y,b.x,b.y);
     }
 
