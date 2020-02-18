@@ -7,27 +7,36 @@ import javax.swing.JFrame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Stack;
 
 public class Icosian {
     public static void main(String[] args) {
         UndirectedGraph graph = new UndirectedGraph(20);
         UndirectedGraph.makeDodecahedron(graph);
         Hamiltonian remover = new Hamiltonian(graph);
+
+        remover.findAllPaths(0, 2);
+        remover.stackToLists(0,2);
         
+    
+        ArrayList<Integer> test = new ArrayList<Integer>();
+        test.add(0);
+        test.add(1);
+        test.add(2);
+        test.add(3);
+        
+
+
         JFrame frame = new JFrame("Icosian Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(new GraphDrawer(graph));
         frame.pack();
         frame.setVisible(true);
         
-        remover.surplusRemoval();
-        remover.destroyer();
+        
 
-        JFrame frame2 = new JFrame("Compare Game");
-        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame2.setContentPane(new GraphDrawer(graph));
-        frame2.pack();
-        frame2.setVisible(true);
     }
 }
 
