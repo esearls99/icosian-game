@@ -17,25 +17,13 @@ public class Icosian {
         UndirectedGraph.makeDodecahedron(graph);
         Hamiltonian remover = new Hamiltonian(graph);
 
-        remover.findAllPaths(0, 2);
-        remover.stackToLists(0,2);
-        
-    
-        ArrayList<Integer> test = new ArrayList<Integer>();
-        test.add(0);
-        test.add(1);
-        test.add(2);
-        test.add(3);
-        
-
+        graph.hamiltonian = remover.mainHamiltonian();
 
         JFrame frame = new JFrame("Icosian Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(new GraphDrawer(graph));
         frame.pack();
         frame.setVisible(true);
-        
-        
 
     }
 }
@@ -50,43 +38,37 @@ class GraphDrawer extends JPanel {
         this.setPreferredSize(new Dimension(BOX_WIDTH, BOX_HEIGHT));
     }
 
-
     @Override
     public void paintComponent(Graphics g) {
 
-        Graphics2D graphics2D = (Graphics2D)g;
-            
-        graphics2D.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING, 
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        Graphics2D graphics2D = (Graphics2D) g;
+
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         super.paintComponent(g);
         for (int i = 0; i < graph.vertices.length; i++) {
-            drawNode(g,graph.vertices[i]);
+            drawNode(g, graph.vertices[i]);
         }
-        for (int i = 0; i < graph.V; i++) {
-            for (Integer node : graph.adjListArray.get(i)) {
-                UndirectedGraph.Vertex a = graph.vertices[i];
-                UndirectedGraph.Vertex b = graph.vertices[node];
-                drawEdge(g, a, b);
-            }
-
-
+        int size = graph.hamiltonian.size();
+        for (int i = 0; i < graph.hamiltonian.size()-1; i++) {
+            UndirectedGraph.Vertex a = graph.vertices[graph.hamiltonian.get(i)];
+            UndirectedGraph.Vertex b = graph.vertices[graph.hamiltonian.get(i+1)];
+            drawEdge(g, a, b);
         }
-            
-
+        drawEdge(g, graph.vertices[graph.hamiltonian.get(size- 1)], graph.vertices[graph.hamiltonian.get(0)]);
     }
 
-    public void drawNode (Graphics g, UndirectedGraph.Vertex v) {
-        g.setColor(Color.RED);
-        g.fillOval(v.x - 5, v.y - 5,10, 10);
-        g.drawString(""+v.v, v.x + 5, v.y + 5);
-
-       
-        
-    }
-    public void drawEdge(Graphics g, UndirectedGraph.Vertex a, UndirectedGraph.Vertex b) {
+    public void drawNode(Graphics g, UndirectedGraph.Vertex v) {
         g.setColor(Color.BLACK);
-        g.drawLine(a.x,a.y,b.x,b.y);
+        g.fillOval(v.x - 5, v.y - 5, 10, 10);
+        g.drawString("" + v.v, v.x + 5, v.y + 5);
+
+    }
+
+    public void drawEdge(Graphics g, UndirectedGraph.Vertex a, UndirectedGraph.Vertex b) {
+
+        g.setColor(Color.RED);
+        g.drawLine(a.x, a.y, b.x, b.y);
+
     }
 
 }

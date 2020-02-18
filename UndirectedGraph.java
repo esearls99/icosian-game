@@ -8,6 +8,7 @@ public class UndirectedGraph {
     Vertex[] vertices;
     int[] cords;
     List<LinkedList<Integer>> adjListArray;
+    ArrayList<Integer> hamiltonian;
 
     public UndirectedGraph(int V) {
         this.V = V;

@@ -18,6 +18,19 @@ public class Hamiltonian {
         this.graph = graph;
     }
 
+    public ArrayList<Integer> mainHamiltonian() {
+        Random rand = new Random();
+        int x = rand.nextInt(20);
+        int tmp = rand.nextInt(3);
+        int y = graph.adjListArray.get(x).get(tmp);
+        
+        this.findAllPaths(x, y);
+        this.stackToLists(x, y);
+        ArrayList<Integer> list = this.choosePath();
+
+        return list;
+    }
+
     public void stackToLists(int x, int y) {
         for (Stack<Integer> i : connectionPaths) {
             ArrayList<Integer> list = new ArrayList<Integer>(i);
@@ -26,12 +39,6 @@ public class Hamiltonian {
         for (int i = 0; i < paths.size(); i++) {
             paths.get(i).add(0,x);
             paths.get(i).add(y);
-        }
-        for (int i = 0; i < paths.size(); i++) {
-            for (int j = 0; j < paths.get(i).size(); j++) {
-                System.out.print(paths.get(i).get(j) + " ");
-            }
-            System.out.println();
         }
     }
 
