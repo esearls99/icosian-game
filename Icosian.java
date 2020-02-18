@@ -12,12 +12,22 @@ public class Icosian {
     public static void main(String[] args) {
         UndirectedGraph graph = new UndirectedGraph(20);
         UndirectedGraph.makeDodecahedron(graph);
-
+        Hamiltonian remover = new Hamiltonian(graph);
+        
         JFrame frame = new JFrame("Icosian Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(new GraphDrawer(graph));
         frame.pack();
         frame.setVisible(true);
+        
+        remover.surplusRemoval();
+        remover.destroyer();
+
+        JFrame frame2 = new JFrame("Compare Game");
+        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame2.setContentPane(new GraphDrawer(graph));
+        frame2.pack();
+        frame2.setVisible(true);
     }
 }
 
@@ -48,7 +58,6 @@ class GraphDrawer extends JPanel {
             for (Integer node : graph.adjListArray.get(i)) {
                 UndirectedGraph.Vertex a = graph.vertices[i];
                 UndirectedGraph.Vertex b = graph.vertices[node];
-
                 drawEdge(g, a, b);
             }
 
@@ -61,6 +70,7 @@ class GraphDrawer extends JPanel {
     public void drawNode (Graphics g, UndirectedGraph.Vertex v) {
         g.setColor(Color.RED);
         g.fillOval(v.x - 5, v.y - 5,10, 10);
+        g.drawString(""+v.v, v.x + 5, v.y + 5);
 
        
         

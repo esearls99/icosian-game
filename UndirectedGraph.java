@@ -13,60 +13,51 @@ public class UndirectedGraph {
         this.V = V;
         vertices = new Vertex[V];
         cords = makeCords();
-        
 
         adjListArray = new ArrayList<LinkedList<Integer>>();
         for (int i = 0; i < V; i++) {
             adjListArray.add(new LinkedList<Integer>());
-            
-            
+
         }
         for (int i = 0; i < V; i++) {
-            vertices[i] = new Vertex(i, cords[2 * i], cords[2 * i+1]);
+            vertices[i] = new Vertex(i, cords[2 * i], cords[2 * i + 1]);
         }
-        
+
     }
 
-    public int degree (int n) {
+    public int degree(int n) {
         return adjListArray.get(n).size();
 
     }
 
+    public int areConnected(int a, int b) {
+        if (adjListArray.get(a).contains(b) || adjListArray.get(b).contains(a)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public void removeEdge(int a, int b) {
-        adjListArray.get(a).remove(Integer.valueOf(b));
-        adjListArray.get(b).remove(Integer.valueOf(a));
+        if (a != b) {
+            adjListArray.get(a).remove(Integer.valueOf(b));
+            adjListArray.get(b).remove(Integer.valueOf(a));
+        }
     }
 
-    private void addEdge(int a, int b) {
-        adjListArray.get(a).add(b);
-        adjListArray.get(b).add(a);
+    public void addEdge(int a, int b) {
+        if (a != b) {
+            adjListArray.get(a).add(b);
+            adjListArray.get(b).add(a);
+            vertices[a].history.add(b);
+            vertices[b].history.add(a);
+        }
     }
-    
 
-    
-    private static int[] makeCords (){ 
-        int[] cords = {
-            386,747,
-            749,499,
-            612,76,
-            158,74,
-            19,501,
-            129,467,
-            382,652,
-            640,467,
-            541,168,
-            225,165,
-            177,315,
-            262,565,
-            501,567,
-            592,309,
-            386,169,
-            317,291,
-            275,418,
-            385,498,
-            493,418,
-            451,292};
-            return cords;
+    private static int[] makeCords() {
+        int[] cords = { 386, 747, 749, 499, 612, 76, 158, 74, 19, 501, 129, 467, 382, 652, 640, 467, 541, 168, 225, 165,
+                177, 315, 262, 565, 501, 567, 592, 309, 386, 169, 317, 291, 275, 418, 385, 498, 493, 418, 451, 292 };
+        return cords;
     }
 
     public static void makeDodecahedron(UndirectedGraph graph) {
@@ -113,17 +104,17 @@ public class UndirectedGraph {
         }
     }
 
-    
-
     class Vertex {
         int v;
         int x;
         int y;
+        ArrayList<Integer> history;
 
         public Vertex(int v, int x, int y) {
             this.x = x;
             this.y = y;
             this.v = v;
+            history = new ArrayList<Integer>();
         }
 
     }
