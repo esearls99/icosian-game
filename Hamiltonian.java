@@ -1,7 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
@@ -18,7 +15,7 @@ public class Hamiltonian {
         this.graph = graph;
     }
 
-    public ArrayList<Integer> mainHamiltonian() {
+    public ArrayList<Integer> mainHamiltonian() { // run all the methods. pick a point and one of its neighbors
         Random rand = new Random();
         int x = rand.nextInt(20);
         int tmp = rand.nextInt(3);
@@ -31,7 +28,7 @@ public class Hamiltonian {
         return list;
     }
 
-    public void stackToLists(int x, int y) {
+    private void stackToLists(int x, int y) { //converts my paths to array lists. adds the starting and terminal vertices
         for (Stack<Integer> i : connectionPaths) {
             ArrayList<Integer> list = new ArrayList<Integer>(i);
             paths.add(list);
@@ -42,7 +39,7 @@ public class Hamiltonian {
         }
     }
 
-    public ArrayList<Integer> choosePath (){
+    private ArrayList<Integer> choosePath (){ //picks a hamiltonian path out of all the possible paths
 
         for(int i = 0; i < paths.size(); i++) {
             if (isHamiltonian(paths.get(i)) == true) {
@@ -53,14 +50,14 @@ public class Hamiltonian {
     }
 
     private boolean isHamiltonian (ArrayList<Integer> path) {
-        if (path.size() == 20 && isAcyclicPath(path)) {
+        if (path.size() == 20 && noBackTrack(path)) {
             return true;
         }
         else 
             return false;
     }
 
-    public boolean isAcyclicPath (ArrayList<Integer> path) {
+    private boolean noBackTrack (ArrayList<Integer> path) { //makes sure a path doesn't have any repeating vertices
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (int i = 0; i < path.size(); i ++) {
             if(!list.contains(path.get(i)))
@@ -73,7 +70,7 @@ public class Hamiltonian {
             return false;
     }
 
-    void findAllPaths(int x, int y) {
+    private void findAllPaths(int x, int y) { //main depth first seach. finds all paths between two vertices
         for (int e : graph.adjListArray.get(x)) {
             if (e == y) {
                 Stack<Integer> temp = new Stack<Integer>();
@@ -86,22 +83,5 @@ public class Hamiltonian {
                 connectionPath.pop();
             }
         }
-    }
-
-
-    private static void shuffleArray(int[] a) {
-        int n = a.length;
-        Random random = new Random();
-        random.nextInt();
-        for (int i = 0; i < n; i++) {
-            int change = i + random.nextInt(n - i);
-            swap(a, i, change);
-        }
-    }
-
-    private static void swap(int[] a, int i, int change) {
-        int helper = a[i];
-        a[i] = a[change];
-        a[change] = helper;
     }
 }

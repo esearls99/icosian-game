@@ -4,20 +4,17 @@ import java.awt.Graphics;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Stack;
+
 
 public class Icosian {
     public static void main(String[] args) {
-        UndirectedGraph graph = new UndirectedGraph(20);
+        UndirectedGraph graph = new UndirectedGraph(20); //initialize dodecahedron
         UndirectedGraph.makeDodecahedron(graph);
         Hamiltonian remover = new Hamiltonian(graph);
 
-        graph.hamiltonian = remover.mainHamiltonian();
+        graph.hamiltonian = remover.mainHamiltonian(); //find hamiltonian path
 
         JFrame frame = new JFrame("Icosian Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,7 +51,7 @@ class GraphDrawer extends JPanel {
             UndirectedGraph.Vertex b = graph.vertices[graph.hamiltonian.get(i+1)];
             drawEdge(g, a, b);
         }
-        drawEdge(g, graph.vertices[graph.hamiltonian.get(size- 1)], graph.vertices[graph.hamiltonian.get(0)]);
+        drawEdge(g, graph.vertices[graph.hamiltonian.get(size- 1)], graph.vertices[graph.hamiltonian.get(0)]); //draw the final line completing the cycle
     }
 
     public void drawNode(Graphics g, UndirectedGraph.Vertex v) {
